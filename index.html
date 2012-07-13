@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Note Backbone</title>
+    </head>
+    <body>
+        <div id="top">
+            <p>
+                Head
+            </p>
+        </div>
+        <div id="main">
+            <div class="container">
+                <button name="new">new</button>
+                <div id="note-edit"></div>
+                <div id="notes-list">
+                    <ul></ul>
+                </div>
+                <div id="note-detail"></div>
+            </div>
+        </div>
+        <div id="footer">
+            <p>
+                Copyright
+            </p>
+        </div>
+
+        <script id="note-edit-tpl" type="text/x-handlebars-template">
+            <form>
+            <input type="text" name="title" />
+            <textarea name="content"></textarea>
+            <button name="save">save</button>
+            <button name="cancel">cancel</button>
+            </form>
+        </script>
+        
+        <script id="notes-list-tpl" type="text/x-handlebars-template">
+            <ul></ul>
+        </script>
+
+        <script id="note-item-tpl" type="text/x-handlebars-template">
+            <a href="#">{{title}}</a>
+            <button>delete</button>
+        </script>
+
+        <script id="note-detail-tpl" type="text/x-handlebars-template">
+            <h3>{{title}}</h3>
+            <p>{{content}}</p>
+        </script>
+
+        <script src="static/js/jquery.js"></script>
+        <script src="static/js/handlebars.js"></script>
+        <script src="static/js/underscore.js"></script>
+        <script src="static/js/backbone.js"></script>
+        <script src="static/js/backbone-localstorage.js"></script>
+        <script src="static/js/app.js"></script>
+    </body>
+</html>
+
