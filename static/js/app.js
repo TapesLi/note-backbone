@@ -1,3 +1,5 @@
+var store = new Store('嘻嘻');
+
 var tpl = {
     notes_list_tpl : Handlebars.compile($('#notes-list-tpl').html()),
     note_item_tpl : Handlebars.compile($('#note-item-tpl').html()),
@@ -12,7 +14,7 @@ var Note = Backbone.Model.extend({
         content : 'content',
     },
 
-    localStorage : new Store('note-backbone'),
+    localStorage : store,
 
     initialize : function() {
         // console.log(this.get('title'));
@@ -23,7 +25,7 @@ var Note = Backbone.Model.extend({
 var NotesList = Backbone.Collection.extend({
 
     model : Note,
-    localStorage : new Store('note-backbone'),
+    localStorage : store,
 });
 
 var NoteItemView = Backbone.View.extend({
@@ -36,6 +38,7 @@ var NoteItemView = Backbone.View.extend({
     },
 
     initialize : function() {
+        this.model = this.options.model;
         this.model.bind('change', this.render, this);
         this.model.bind('destroy', this.remove, this);
     },
@@ -54,35 +57,43 @@ var NoteDetailView = Backbone.View.extend({
     id : 'note-detail',
     tpl : tpl.note_detail_tpl,
     initialize : function() {
-
+        this.model = this.options.model;
     },
     render : function() {
-
+        return this;
     }
 });
 
 var NoteEditView = Backbone.View.extend({
-    el : $('#note-edit'),
+    // el : $('#note-edit'),
+    tagName : 'div',
+    id : '#note-edit',
     tpl : tpl.note_edit_tpl,
 
     events : {
-        'click button[name="cancel"]' : 'delete_view',
+        'click button[name="cancel"]' : 'cancel',
         'click button[name="save"]' : 'save',
         'click input' : 'select',
         'click textarea' : 'select',
     },
 
     initialize : function() {
-
+        _.bindAll(this, 'render', 'cancel', 'save', 'select');
+        this.collection = this.options.collection;
+        // console.log(this.collection);
+        this.model = this.options.models || (new this.options.collection.model());
+        // B = this.collection;
+        // this.model = {};
     },
 
     render : function() {
-        this.$el.append(this.tpl());
+        this.$el.append(this.tpl(this.model.toJSON()));
         return this;
     },
-    delete_view : function(event) {
+    cancel : function(event) {
         event.preventDefault();
-        this.$el.empty();
+        this.$el.remove();
+        // this.undelegateEvents();
     },
     save : function(event) {
         event.preventDefault();
@@ -95,7 +106,14 @@ var NoteEditView = Backbone.View.extend({
         // note.save();
         // notes_list.add(note);
         // console.log(note);
-        notes_list.create(form);
+        // notes_list.create(form);
+        this.model.set(form);
+        /*
+         if (this.model.isNew()) {
+         this.collection.add(this.model);
+         }*/
+
+        this.model.save();
     },
 
     select : function(event) {
@@ -106,21 +124,37 @@ var NoteEditView = Backbone.View.extend({
 });
 
 var NotesListView = Backbone.View.extend({
-    el : $('#notes-list'),
+    // el : $('#notes-list'),
+    tagName : 'div',
+    id : 'notes-list',
     tpl : tpl.notes_list_tpl,
     events : {
 
     },
 
     initialize : function() {
-        this.ul = this.$('ul');
         _.bindAll(this, 'render', 'add_one', 'add_all');
-        notes_list.on('add', this.add_one);
-        notes_list.on('reset', this.add_all);
-        notes_list.fetch();
+
+        this.collection = this.options.collection;
+        // this.ul = this.$('ul');
+
+        this.collection.on('add', this.add_one);
+        this.collection.on('reset', this.add_all);
     },
 
     render : function() {
+        this.$el.html(this.tpl());
+        this.collection.fetch({
+            success : function(resp) {
+                console.log('resp');
+                console.log(resp);
+            },
+            error : function() {
+                console.log('error');
+            },
+        });
+        console.log(this.collection);
+        A = this.collection;
         return this;
     },
 
@@ -128,15 +162,17 @@ var NotesListView = Backbone.View.extend({
         var view = new NoteItemView({
             'model' : note,
         });
-        this.ul.append(view.render().el);
+        this.$('ul').append(view.render().el);
     },
 
     add_all : function() {
-        notes_list.each(this.add_one);
+        this.$('ul').empty();
+        this.collection.each(this.add_one);
     }
 });
 
-var NoteApp = Backbone.Router.extend({
+var NoteRouter = Backbone.Router.extend({
+    $el : $('#main div.container'),
     routes : {
         "" : "index",
         "notes" : "notes_list",
@@ -145,7 +181,11 @@ var NoteApp = Backbone.Router.extend({
     },
 
     initialize : function() {
-
+        // console.log(this.options);
+        // console.log(options);
+        // this.$el = this.options.$el;
+        this.notes_list = new NotesList();
+        console.log('new router.');
     },
 
     index : function() {
@@ -153,14 +193,35 @@ var NoteApp = Backbone.Router.extend({
     },
 
     notes_list : function() {
-        new NotesListView();
+        var notes_list_view = new NotesListView({
+            collection : this.notes_list,
+        });
+        // console.log(this.$el);
+        this.$el.html(notes_list_view.render().el);
+    },
+
+    note_create : function() {
+        var note_edit_view = new NoteEditView({
+            collection : this.notes_list,
+        });
+        this.$el.html(note_edit_view.render().el);
     }
 });
 
-var notes_list = new NotesList();
-var notes_list_view = new NotesListView();
-
-$('button[name="new"]').on('click', function() {
-    var note_edit_view = new NoteEditView();
-    note_edit_view.render();
+var router = new NoteRouter({
+    $el : $('#main div.container'),
 });
+Backbone.history.start();
+/*
+ var notes_list = new NotesList();
+ var notes_list_view = new NotesListView({
+ collection : notes_list,
+ });
+
+ $('button[name="new"]').on('click', function() {
+ var note_edit_view = new NoteEditView({
+ collection : notes_list,
+ });
+ note_edit_view.render();
+ });*/
+

@@ -8,6 +8,10 @@
             <p>
                 Head
             </p>
+            <div>
+                <a href="#notes">notes</a>
+                <a href="#new">new</a>
+            </div>
         </div>
         <div id="main">
             <div class="container">
@@ -27,8 +31,8 @@
 
         <script id="note-edit-tpl" type="text/x-handlebars-template">
             <form>
-            <input type="text" name="title" />
-            <textarea name="content"></textarea>
+            <input type="text" name="title" value="{{title}}" />
+            <textarea name="content">{{content}}</textarea>
             <button name="save">save</button>
             <button name="cancel">cancel</button>
             </form>
