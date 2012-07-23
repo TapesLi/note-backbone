@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Note Backbone</title>
+        <link href="static/css/style.css" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <div id="top">
+            <div class="container">
+                <div id="toolbar" class="clearfix">
+                    <ul>
+                        <li>
+                            <a href="#note">notes</a>
+                        </li>
+                        <li>
+                            <a href="#new">new</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="wrapper">
+            <div class="container">
+                <div id="main">
+                    <div id="editor"></div>
+                </div>
+            </div>
+        </div>
+        <div id="footer">
+            <p>
+                Copyright
+            </p>
+        </div>
+
+        <script id="note-edit-tpl" type="text/x-handlebars-template">
+            <form id="">
+            <div>
+            <input type="text" name="title" value="{{title}}" placeholder="Title" />
+            </div>
+            <div>
+            <textarea name="content" placeholder="Content">{{content}}</textarea>
+            </div>
+            <div>
+            <button name="save">save</button>
+            <button name="cancel">cancel</button>
+            </div>
+            </form>
+        </script>
+
+        <script id="notes-list-tpl" type="text/x-handlebars-template">
+            <ul></ul>
+        </script>
+
+        <script id="note-item-tpl" type="text/x-handlebars-template">
+            <a href="#note/{{id}}">{{title}}</a>
+            <button>delete</button>
+        </script>
+
+        <script id="note-detail-tpl" type="text/x-handlebars-template">
+            <h3>{{title}}</h3>
+            <p>{{content}}</p>
+        </script>
+        
+        <script id="alert-tpl" type="text/x-handlebars-template">
+            <strong class="type">{{ message }}</strong>
+            <button class="close">×</button>
+        </script>
+
+        <script src="static/js/lib/jquery.js"></script>
+        <script src="static/js/lib/handlebars.js"></script>
+        <script src="static/js/lib/underscore.js"></script>
+        <script src="static/js/lib/backbone.js"></script>
+        <script src="static/js/lib/backbone-localstorage.js"></script>
+        <script src="static/js/app.js"></script>
+        <script src="static/js/models.js"></script>
+        <script src="static/js/collections.js"></script>
+        <script src="static/js/views.js"></script>
+        <script src="static/js/routers.js"></script>
+        <script>
+            $(function() {
+                App.init();
+            });
+        </script>
+    </body>
+</html>
+

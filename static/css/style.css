@@ -1,0 +1,115 @@
+.clearfix:after {
+    display: table;
+    content: "";
+    clear: both;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+body {
+    background: url(../img/background.png);
+}
+
+div#wrapper {
+    margin-top: 50px;
+}
+
+div.container {
+    width: 960px;
+    margin: 0 auto;
+}
+
+div#toolbar {
+    border: 1px solid #DDD;
+    border-radius: 3px;
+    padding: 10px 10px;
+    background: #EEE;
+}
+
+div#toolbar span {
+    float: left;
+}
+
+div#toolbar ul {
+    float: right;
+    list-style: none;
+    margin: 0;
+}
+
+div#toolbar ul li {
+    float: left;
+    padding-left: 5px;
+}
+
+div#toolbar ul li a {
+    color: gray;
+    text-decoration: none;
+}
+
+div#toolbar ul li a:hover {
+    color: black;
+}
+
+div#editor {
+    /*    background: white;*/
+    margin-top: 20px;
+    /*    padding: 10px;*/
+    /*    border: 1px solid #DDD;*/
+    /*    border-radius: 3px;*/
+}
+
+div#editor input, textarea {
+    outline: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #DDD;
+    padding: 5px 0;
+    border-radius: 3px;
+}
+
+div#editor textarea {
+    height: 430px;
+}
+
+div#editor input:focus, textarea:focus {
+    border: 1px dashed #DDD;
+}
+
+div#editor div {
+    margin-bottom: 10px;
+}
+
+div.alert {
+    position: fixed;
+    margin: 0 auto;
+    border: 1px solid #DDD;
+    border-radius: 3px;
+    left: 30%;
+    top: 55px;
+    width: 40%;
+    padding: 5px 10px;
+    z-index: 1000;
+    background: #E4F2F5;
+    opacity: 80%;
+    line-height: 24px;
+}
+
+div.alert button {
+    vertical-align: middle;
+    float: right;
+}
+
+div.alert strong {
+    float: left;
+}
+
+div#note-detail {
+
+}
+
+div#note-detail h3 {
+    text-align: center;
+}
