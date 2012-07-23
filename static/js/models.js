@@ -1,7 +1,7 @@
 App.Models.Note = Backbone.Model.extend({
     defaults : {
-        title : 'Title',
-        content : 'content',
+        title : '',
+        content : '',
     },
 
     localStorage : store,

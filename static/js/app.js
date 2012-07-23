@@ -1,10 +1,11 @@
-var store = new Store('嘻嘻');
+var store = new Store('note-backbone');
 
 var tpl = {
     notes_list_tpl : Handlebars.compile($('#notes-list-tpl').html()),
     note_item_tpl : Handlebars.compile($('#note-item-tpl').html()),
     note_detail_tpl : Handlebars.compile($('#note-detail-tpl').html()),
     note_edit_tpl : Handlebars.compile($('#note-edit-tpl').html()),
+    alert_tpl:Handlebars.compile($('#alert-tpl').html()), 
 };
 
 var App = {

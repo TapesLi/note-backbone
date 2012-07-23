@@ -1,5 +1,5 @@
 App.Routers.NoteRouter = Backbone.Router.extend({
-    $el : $('#main div.container'),
+    $el : $('div#editor'),
     routes : {
         "" : "index",
         "note" : "notes_list",

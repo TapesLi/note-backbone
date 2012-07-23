@@ -2,25 +2,28 @@
 <html>
     <head>
         <title>Note Backbone</title>
+        <link href="static/css/style.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <div id="top">
-            <p>
-                Head
-            </p>
-            <div>
-                <a href="#note">notes</a>
-                <a href="#new">new</a>
+            <div class="container">
+                <div id="toolbar" class="clearfix">
+                    <ul>
+                        <li>
+                            <a href="#note">notes</a>
+                        </li>
+                        <li>
+                            <a href="#new">new</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <div id="main">
+        <div id="wrapper">
             <div class="container">
-                <button name="new">new</button>
-                <div id="note-edit"></div>
-                <div id="notes-list">
-                    <ul></ul>
+                <div id="main">
+                    <div id="editor"></div>
                 </div>
-                <div id="note-detail"></div>
             </div>
         </div>
         <div id="footer">
@@ -30,14 +33,20 @@
         </div>
 
         <script id="note-edit-tpl" type="text/x-handlebars-template">
-            <form>
-            <input type="text" name="title" value="{{title}}" />
-            <textarea name="content">{{content}}</textarea>
+            <form id="">
+            <div>
+            <input type="text" name="title" value="{{title}}" placeholder="Title" />
+            </div>
+            <div>
+            <textarea name="content" placeholder="Content">{{content}}</textarea>
+            </div>
+            <div>
             <button name="save">save</button>
             <button name="cancel">cancel</button>
+            </div>
             </form>
         </script>
-        
+
         <script id="notes-list-tpl" type="text/x-handlebars-template">
             <ul></ul>
         </script>
@@ -51,6 +60,11 @@
             <h3>{{title}}</h3>
             <p>{{content}}</p>
         </script>
+        
+        <script id="alert-tpl" type="text/x-handlebars-template">
+            <strong class="type">{{ message }}</strong>
+            <button class="close">×</button>
+        </script>
 
         <script src="static/js/lib/jquery.js"></script>
         <script src="static/js/lib/handlebars.js"></script>
@@ -63,7 +77,9 @@
         <script src="static/js/views.js"></script>
         <script src="static/js/routers.js"></script>
         <script>
-            App.init();
+            $(function() {
+                App.init();
+            });
         </script>
     </body>
 </html>

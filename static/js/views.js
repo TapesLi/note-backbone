@@ -24,6 +24,7 @@ App.Views.NoteItemView = Backbone.View.extend({
 });
 
 App.Views.NoteDetailView = Backbone.View.extend({
+    tagName : 'div',
     id : 'note-detail',
     tpl : tpl.note_detail_tpl,
     initialize : function() {
@@ -37,7 +38,7 @@ App.Views.NoteDetailView = Backbone.View.extend({
 
 App.Views.NoteEditView = Backbone.View.extend({
     tagName : 'div',
-    id : '#note-edit',
+    id : 'note-edit',
     tpl : tpl.note_edit_tpl,
 
     events : {
@@ -67,8 +68,15 @@ App.Views.NoteEditView = Backbone.View.extend({
         _.each(this.$('form').serializeArray(), function(element) {
             form[element.name] = element.value;
         });
-        this.model.set(form);
-        this.model.save();
+        // this.model.set(form);
+        this.model.save(form, {
+            success : function() {
+                $('body').prepend(new App.Views.Alert().render().el);
+            },
+            error : function() {
+                $('body').insert(new App.Views.Alert());
+            },
+        });
     },
 
     select : function(event) {
@@ -100,7 +108,6 @@ App.Views.NotesListView = Backbone.View.extend({
                 console.log('failed');
             },
         });
-        A = this.collection;
         return this;
     },
 
@@ -115,4 +122,32 @@ App.Views.NotesListView = Backbone.View.extend({
         this.$('ul').empty();
         this.collection.each(this.add_one);
     }
+});
+
+App.Views.Alert = Backbone.View.extend({
+    tagName : 'div',
+    className : 'alert',
+    tpl : tpl.alert_tpl,
+
+    events : {
+        'click button.close' : 'close',
+    },
+
+    initialize : function() {
+        _.bindAll(this, 'render', 'close');
+    },
+
+    render : function() {
+        this.$el.html(this.tpl({
+            'message' : 'You have save a note.'
+        }));
+        setTimeout(_.bind(function() {
+            this.close();
+        }, this), 5000);
+        return this;
+    },
+
+    close : function() {
+        this.$el.remove();
+    },
 });
