@@ -9,7 +9,7 @@
                 Head
             </p>
             <div>
-                <a href="#notes">notes</a>
+                <a href="#note">notes</a>
                 <a href="#new">new</a>
             </div>
         </div>
@@ -43,7 +43,7 @@
         </script>
 
         <script id="note-item-tpl" type="text/x-handlebars-template">
-            <a href="#">{{title}}</a>
+            <a href="#note/{{id}}">{{title}}</a>
             <button>delete</button>
         </script>
 
@@ -58,6 +58,13 @@
         <script src="static/js/backbone.js"></script>
         <script src="static/js/backbone-localstorage.js"></script>
         <script src="static/js/app.js"></script>
+        <script src="static/js/models.js"></script>
+        <script src="static/js/collections.js"></script>
+        <script src="static/js/views.js"></script>
+        <script src="static/js/routers.js"></script>
+        <script>
+            App.init();
+        </script>
     </body>
 </html>
 
